@@ -31,3 +31,4 @@ Each commit represents progress and improvements in my coding skills.
 
 ## Contact
 If you'd like to collaborate or share feedback, feel free to connect with me on GitHub.
+or via this email : muh.fir.firdaus@gmail.com
