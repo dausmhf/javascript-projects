@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home — Mini Auth</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                },
+            },
+        };
+    </script>
+    <style>
+        .bg-animated {
+            background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #1a1a2e, #16213e, #0f3460);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.35;
+            pointer-events: none;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: #10b981;
+            top: -100px;
+            right: -80px;
+            animation: float1 10s ease-in-out infinite;
+        }
+
+        .orb-2 {
+            width: 320px;
+            height: 320px;
+            background: #7c3aed;
+            bottom: -80px;
+            left: -60px;
+            animation: float2 12s ease-in-out infinite;
+        }
+
+        @keyframes float1 {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate(-40px, 30px) scale(1.1);
+            }
+        }
+
+        @keyframes float2 {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate(30px, -40px) scale(1.08);
+            }
+        }
+
+        .fade-up {
+            animation: fadeUp 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-up-delay {
+            animation: fadeUp 0.8s 0.2s ease forwards;
+            opacity: 0;
+        }
+
+        #particles {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body class="bg-animated min-h-screen font-sans text-white overflow-hidden relative">
+
+    <!-- Floating orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <!-- Particle canvas -->
+    <canvas id="particles"></canvas>
+
+    <!-- ═══════════ CONTENT ═══════════ -->
+    <div class="relative z-10 min-h-screen flex flex-col">
+
+        <!-- Nav bar -->
+        <nav class="glass border-t-0 border-x-0 px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z" />
+                    </svg>
+                </div>
+                <span class="text-lg font-bold tracking-tight">Mini Auth</span>
+            </div>
+            <button id="logoutBtn"
+                class="px-5 py-2 rounded-xl bg-white/5 border border-white/10 text-sm font-medium text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-300 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                Logout
+            </button>
+        </nav>
+
+        <!-- Main content -->
+        <main class="flex-1 flex items-center justify-center px-4">
+            <div class="max-w-2xl w-full text-center">
+
+                <!-- Welcome card -->
+                <div class="glass rounded-3xl p-10 shadow-2xl fade-up">
+                    <!-- Avatar -->
+                    <div
+                        class="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500 to-cyan-400 flex items-center justify-center mx-auto mb-6 shadow-lg shadow-emerald-500/30">
+                        <span id="userInitial" class="text-3xl font-bold">?</span>
+                    </div>
+
+                    <h1 class="text-3xl font-bold tracking-tight mb-2">
+                        Welcome back, <span id="userName"
+                            class="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">User</span>!
+                        👋
+                    </h1>
+                    <p class="text-gray-400 text-base mb-8">You have successfully signed in to your account.</p>
+
+                    <!-- Stats cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+                        <div class="glass rounded-2xl p-5 hover:bg-white/10 transition group">
+                            <div class="text-2xl mb-1">📧</div>
+                            <p class="text-xs text-gray-500 uppercase tracking-wider mb-1">Email</p>
+                            <p id="userEmail" class="text-sm text-gray-300 font-medium truncate">—</p>
+                        </div>
+                        <div class="glass rounded-2xl p-5 hover:bg-white/10 transition group">
+                            <div class="text-2xl mb-1">🕐</div>
+                            <p class="text-xs text-gray-500 uppercase tracking-wider mb-1">Login Time</p>
+                            <p id="loginTime" class="text-sm text-gray-300 font-medium">—</p>
+                        </div>
+                        <div class="glass rounded-2xl p-5 hover:bg-white/10 transition group">
+                            <div class="text-2xl mb-1">🔒</div>
+                            <p class="text-xs text-gray-500 uppercase tracking-wider mb-1">Status</p>
+                            <p class="text-sm text-emerald-400 font-medium">Authenticated</p>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-gray-500">This is a demo home page. Your session is stored locally.</p>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- ═══════════ SCRIPTS ═══════════ -->
+    <script>
+        // ── Check if user is logged in ──
+        const user = JSON.parse(localStorage.getItem('loggedInUser'));
+        if (!user) {
+            window.location.href = 'login.html';
+        } else {
+            document.getElementById('userName').textContent = user.name;
+            document.getElementById('userInitial').textContent = user.name.charAt(0).toUpperCase();
+            document.getElementById('userEmail').textContent = user.email;
+            document.getElementById('loginTime').textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        // ── Logout ──
+        document.getElementById('logoutBtn').addEventListener('click', function () {
+            localStorage.removeItem('loggedInUser');
+            window.location.href = 'login.html';
+        });
+
+        // ── Particle system ──
+        (function () {
+            const canvas = document.getElementById('particles');
+            const ctx = canvas.getContext('2d');
+            let w, h, particles;
+
+            function resize() {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            class Particle {
+                constructor() { this.reset(); }
+                reset() {
+                    this.x = Math.random() * w;
+                    this.y = Math.random() * h;
+                    this.r = Math.random() * 2 + 0.5;
+                    this.dx = (Math.random() - 0.5) * 0.3;
+                    this.dy = (Math.random() - 0.5) * 0.3;
+                    this.alpha = Math.random() * 0.4 + 0.1;
+                }
+                update() {
+                    this.x += this.dx;
+                    this.y += this.dy;
+                    if (this.x < 0 || this.x > w || this.y < 0 || this.y > h) this.reset();
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255,255,255,${this.alpha})`;
+                    ctx.fill();
+                }
+            }
+
+            particles = Array.from({ length: 60 }, () => new Particle());
+
+            function loop() {
+                ctx.clearRect(0, 0, w, h);
+                particles.forEach(p => { p.update(); p.draw(); });
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 120) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(255,255,255,${0.05 * (1 - dist / 120)})`;
+                            ctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(loop);
+            }
+            loop();
+        })();
+    </script>
+</body>
+
+</html>
