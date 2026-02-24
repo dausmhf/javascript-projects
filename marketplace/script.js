@@ -4,6 +4,12 @@ const btn = document.getElementById("btn");
 let count = 0;
 
 btn.addEventListener("click", () => {
-  count++;
-  cartCount.textContent = count;
+  if (count < 99) {
+     count++;
+     cartCount.textContent = count;
+  }
+  else {
+    cartCount.textContent = "99+";
+  }
+   
 });
